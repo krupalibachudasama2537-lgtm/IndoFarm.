@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | IndoFarm</title>
+    <link rel="icon" type="image/jpeg" href="indofarm.jpeg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #2d6a4f;
+            --secondary: #52b788;
+            --accent: #d4a373;
+            --text-dark: #1b4332;
+            --bg-light: #f8f9fa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { color: var(--text-dark); background-color: #fff; line-height: 1.8; }
+
+        /* Hero Section */
+        .about-hero {
+            background: linear-gradient(rgba(45, 106, 79, 0.8), rgba(45, 106, 79, 0.8)), 
+                        url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .about-hero h1 { font-size: 3.5rem; font-weight: 700; margin-bottom: 10px; }
+
+        /* Content Sections */
+        .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px; }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+
+        .mission-text h2 { color: var(--primary); font-size: 2.2rem; margin-bottom: 20px; }
+        .mission-text p { margin-bottom: 20px; font-size: 1.1rem; color: #444; }
+
+        .mission-img img { width: 100%; border-radius: 20px; box-shadow: 20px 20px 0px var(--secondary); }
+
+        /* Core Values */
+        .values-section { background-color: var(--bg-light); padding: 80px 20px; text-align: center; }
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .value-card {
+            background: white;
+            padding: 40px 20px;
+            border-radius: 15px;
+            transition: 0.3s;
+        }
+
+        .value-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .value-card i { font-size: 3rem; color: var(--secondary); margin-bottom: 20px; }
+
+        /* Team Section */
+        .team-section { padding: 80px 20px; text-align: center; }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            filter: grayscale(100%);
+            transition: 0.3s;
+        }
+
+        .team-member:hover img { filter: grayscale(0%); transform: scale(1.05); }
+        .team-member h4 { margin-bottom: 5px; }
+        .team-member span { color: var(--primary); font-weight: 600; font-size: 0.9rem; }
+
+        @media (max-width: 768px) {
+            .mission-grid { grid-template-columns: 1fr; text-align: center; }
+            .about-hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="about-hero">
+        <div>
+            <h1>Our Roots. Your Growth.</h1>
+            <p style="font-size: 1.2rem; max-width: 700px;">Bridging the gap between traditional farming and advanced artificial intelligence.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="mission-grid">
+            <div class="mission-text">
+                <h2>Our Mission</h2>
+                <p>Founded by a group of agronomists and AI researchers, <strong>AgriVision AI</strong> was born out of a simple observation: billions of dollars in crops are lost annually to preventable diseases.</p>
+                <p>We believe that every farmer, regardless of the size of their land, should have access to world-class diagnostic tools. Our technology empowers growers to make data-driven decisions that save money and reduce chemical waste.</p>
+            </div>
+            <div class="mission-img">
+                <img src="https://images.unsplash.com/photo-1595841696677-6489ff3f8cd1?auto=format&fit=crop&w=800&q=80" alt="Farmer with technology">
+            </div>
+        </div>
+    </div>
+
+    <section class="values-section">
+        <div class="container" style="padding: 0;">
+            <h2>What We Stand For</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <i class="fas fa-seedling"></i>
+                    <h3>Sustainability</h3>
+                    <p>By detecting issues early, we help farmers use 30% less pesticide on average.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-microscope"></i>
+                    <h3>Scientific Rigor</h3>
+                    <p>Our models are verified by plant pathologists to ensure laboratory-level accuracy.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-globe-americas"></i>
+                    <h3>Accessibility</h3>
+                    <p>Designed to work on low-end smartphones in remote areas with poor internet.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <div class="container" style="padding: 0;">
+            <h2>The Minds Behind the Tech</h2>
+            <p>A diverse team of engineers, biologists, and field experts.</p>
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="https://i.pravatar.cc/150?u=1" alt="Team 1">
+                    <h4>Dr. Sarah Chen</h4>
+                    <span>Chief Pathologist</span>
+                </div>
+                <div class="team-member">
+                    <img src="https://i.pravatar.cc/150?u=2" alt="Team 2">
+                    <h4>Marcus Thorne</h4>
+                    <span>AI Lead</span>
+                </div>
+                <div class="team-member">
+                    <img src="https://i.pravatar.cc/150?u=3" alt="Team 3">
+                    <h4>Elena Rodriguez</h4>
+                    <span>Field Operations</span>
+                </div>
+                <div class="team-member">
+                    <img src="https://i.pravatar.cc/150?u=4" alt="Team 4">
+                    <h4>David Wu</h4>
+                    <span>Software Architect</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Reveal elements on scroll
+        const revealElements = document.querySelectorAll('.mission-text, .mission-img, .value-card');
+        
+        const scrollReveal = () => {
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < window.innerHeight - 100) {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }
+            });
+        };
+
+        // Initialize styles for animation
+        revealElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s ease-out';
+        });
+
+        window.addEventListener('scroll', scrollReveal);
+        window.addEventListener('load', scrollReveal);
+    </script>
+</body>
+</html>

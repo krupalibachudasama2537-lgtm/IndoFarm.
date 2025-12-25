@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndoFarm Pro | Field Diagnostics</title>
+    <link rel="icon" type="image/jpeg" href="indofarm.jpeg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #2d6a4f;
+            --secondary: #52b788;
+            --danger: #e63946;
+            --warning: #ffb100;
+            --light: #f1f5f9;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--light); color: #334155; padding: 40px 20px; }
+
+        .dashboard-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+
+        /* --- MAIN SCANNER SECTION --- */
+        .main-scanner {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .scanner-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .badge { background: #dcfce7; color: var(--primary); padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+
+        .upload-container {
+            border: 2px dashed #cbd5e1;
+            border-radius: 16px;
+            padding: 60px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #fcfcfc;
+        }
+
+        .upload-container:hover { border-color: var(--secondary); background: #f0fdf4; }
+        .upload-container i { font-size: 50px; color: var(--secondary); margin-bottom: 15px; }
+
+        #image-input { display: none; }
+
+        .preview-box {
+            display: none;
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        #preview-img { width: 100%; max-height: 500px; object-fit: cover; }
+
+        .scan-laser {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: var(--secondary);
+            box-shadow: 0 0 20px var(--secondary);
+            animation: moveLaser 2.5s infinite alternate;
+        }
+
+        @keyframes moveLaser { from { top: 0; } to { top: 100%; } }
+
+        /* --- SIDEBAR CONTENT --- */
+        .sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+        .card { background: var(--white); padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .card h3 { font-size: 16px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+
+        .stat-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; }
+        .stat-value { font-weight: 700; color: var(--primary); }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .history-item img { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { transform: scale(1.02); background: var(--dark); }
+
+        .hidden { display: none; }
+
+        @media (max-width: 900px) {
+            .dashboard-wrapper { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-wrapper">
+        
+        <div class="main-scanner">
+            <div class="scanner-header">
+                <div>
+                    <h1 style="font-size: 28px;">Field Diagnostics</h1>
+                    <p style="color: #64748b;">AI Image Analysis & Health Assessment</p>
+                </div>
+                <span class="badge"><i class="fas fa-signal"></i> SYSTEM ONLINE</span>
+            </div>
+
+            <div class="upload-container" id="drop-area">
+                <i class="fas fa-camera-retro"></i>
+                <h2>Take a Photo or Upload</h2>
+                <p>Ensure leaf is in focus for 99% accuracy</p>
+                <input type="file" id="image-input" accept="image/*">
+            </div>
+
+            <div class="preview-box" id="preview-box">
+                <div class="scan-laser" id="laser"></div>
+                <img src="" id="preview-img">
+            </div>
+
+            <div id="analysis-results" class="hidden">
+                <div style="margin-top: 25px; padding: 20px; background: #f8fafc; border-radius: 12px;">
+                    <h3 id="res-title" style="color: var(--primary); margin-bottom: 10px;">Analyzing...</h3>
+                    <p id="res-desc" style="font-size: 14px; color: #475569;">Our system is comparing pixels against 10M+ plant samples.</p>
+                </div>
+            </div>
+
+            <button class="btn btn-primary hidden" id="scan-btn">Run Intelligence Scan</button>
+            <button class="btn hidden" id="reset-btn" style="background:#f1f5f9;">New Scan</button>
+        </div>
+
+        <div class="sidebar">
+            <div class="card">
+                <h3><i class="fas fa-cloud-sun" style="color: var(--warning);"></i> Field Context</h3>
+                <div class="stat-row"><span>Local Temperature</span> <span class="stat-value">24°C</span></div>
+                <div class="stat-row"><span>Humidity</span> <span class="stat-value">62%</span></div>
+                <div class="stat-row"><span>Soil Moisture</span> <span class="stat-value">Optimal</span></div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-microscope" style="color: var(--primary);"></i> Scan Metadata</h3>
+                <div class="stat-row"><span>Species Match</span> <span id="meta-species" class="stat-value">---</span></div>
+                <div class="stat-row"><span>Confidence</span> <span id="meta-conf" class="stat-value">---</span></div>
+                <div class="stat-row"><span>Severity Index</span> <span id="meta-severity" class="stat-value">---</span></div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                <div id="history-list">
+                    <p style="font-size: 12px; color: #94a3b8;">No recent scans.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById('image-input');
+        const dropArea = document.getElementById('drop-area');
+        const previewBox = document.getElementById('preview-box');
+        const previewImg = document.getElementById('preview-img');
+        const scanBtn = document.getElementById('scan-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const laser = document.getElementById('laser');
+        const analysisResults = document.getElementById('analysis-results');
+        const historyList = document.getElementById('history-list');
+
+        const mockData = [
+            { name: "Yellow Rust (Wheat)", conf: "98.2%", severity: "Moderate", advice: "Apply Tebuconazole fungicide immediately." },
+            { name: "Healthy Corn", conf: "99.5%", severity: "None", advice: "Plant is thriving. No action required." },
+            { name: "Potato Late Blight", conf: "94.1%", severity: "High", advice: "Isolate plot. Remove infected leaves to prevent spread." }
+        ];
+
+        dropArea.onclick = () => input.click();
+
+        input.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (f) => {
+                    previewImg.src = f.target.result;
+                    dropArea.classList.add('hidden');
+                    previewBox.style.display = 'block';
+                    scanBtn.classList.remove('hidden');
+                    resetBtn.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        };
+
+        scanBtn.onclick = () => {
+            scanBtn.disabled = true;
+            scanBtn.innerText = "Processing Pixels...";
+            laser.style.display = 'block';
+            analysisResults.classList.remove('hidden');
+
+            setTimeout(() => {
+                laser.style.display = 'none';
+                scanBtn.classList.add('hidden');
+                
+                const result = mockData[Math.floor(Math.random() * mockData.length)];
+                
+                // Update Metadata
+                document.getElementById('meta-species').innerText = result.name;
+                document.getElementById('meta-conf').innerText = result.conf;
+                document.getElementById('meta-severity').innerText = result.severity;
+                
+                // Update Result Box
+                document.getElementById('res-title').innerText = "Detection: " + result.name;
+                document.getElementById('res-desc').innerText = "Expert Advice: " + result.advice;
+
+                // Add to History
+                addToHistory(result.name, previewImg.src);
+
+            }, 2500);
+        };
+
+        function addToHistory(name, imgSrc) {
+            const item = document.createElement('div');
+            item.className = 'history-item';
+            item.innerHTML = `<img src="${imgSrc}"> <div><p style="font-weight:600; font-size:13px;">${name}</p><p style="font-size:11px; color:#64748b;">Just now</p></div>`;
+            if(historyList.children[0].tagName === 'P') historyList.innerHTML = '';
+            historyList.prepend(item);
+        }
+
+        resetBtn.onclick = () => location.reload();
+    </script>
+</body>
+</html>
